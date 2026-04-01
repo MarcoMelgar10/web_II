@@ -1,0 +1,52 @@
+<%- include('../../partials/header') %>
+
+<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
+    <li class="breadcrumb-item"><a href="/admin/horarios">Horarios</a></li>
+    <li class="breadcrumb-item active">Nuevo Horario</li>
+  </ol>
+</nav>
+
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header bg-dark text-white">
+        <h5 class="mb-0">Nuevo Horario</h5>
+      </div>
+      <div class="card-body">
+        <form action="/admin/horarios" method="POST">
+          <div class="mb-3">
+            <label for="cancha_id" class="form-label">Cancha</label>
+            <select class="form-select" id="cancha_id" name="cancha_id" required>
+              <option value="">Seleccionar cancha</option>
+              <% canchas.forEach(cancha => { %>
+                <option value="<%= cancha.id %>"><%= cancha.nombre %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="fecha" class="form-label">Fecha</label>
+            <input type="date" class="form-control" id="fecha" name="fecha"
+              min="<%= new Date().toISOString().split('T')[0] %>" required>
+          </div>
+          <div class="row">
+            <div class="col-6 mb-3">
+              <label for="hora_inicio" class="form-label">Hora inicio</label>
+              <input type="time" class="form-control" id="hora_inicio" name="hora_inicio" required>
+            </div>
+            <div class="col-6 mb-3">
+              <label for="hora_fin" class="form-label">Hora fin</label>
+              <input type="time" class="form-control" id="hora_fin" name="hora_fin" required>
+            </div>
+          </div>
+          <p class="text-muted small">El horario se creará como disponible.</p>
+          <button type="submit" class="btn btn-dark">Crear</button>
+          <a href="/admin/horarios" class="btn btn-secondary ms-2">Cancelar</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../../partials/footer') %>

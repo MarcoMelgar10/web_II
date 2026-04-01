@@ -1,0 +1,43 @@
+<%- include('../partials/header') %>
+
+<h2 class="mb-3">Canchas Disponibles</h2>
+
+<% if (canchas && canchas.length > 0) { %>
+  <div class="row">
+    <% canchas.forEach(cancha => { %>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title"><%= cancha.nombre %></h5>
+            <p><span class="badge bg-secondary"><%= cancha.tipo ? cancha.tipo.nombre : 'Sin tipo' %></span></p>
+            <p class="fw-bold text-success">$<%= Number(cancha.precio_por_hora).toLocaleString('es-AR') %> / hora</p>
+            <%
+              const prom = cancha.getDataValue ? cancha.getDataValue('promedio_calificacion') : null;
+              const total = cancha.getDataValue ? cancha.getDataValue('total_resenas') : 0;
+              const promNum = prom ? parseFloat(prom) : 0;
+            %>
+            <% if (prom && parseFloat(prom) > 0) { %>
+              <p>
+                <% for(let i = 1; i <= 5; i++) { %>
+                  <span class="<%= i <= Math.round(promNum) ? 'star-filled' : 'star-empty' %>">&#9733;</span>
+                <% } %>
+                <small class="text-muted">(<%= parseFloat(prom).toFixed(1) %>) - <%= total %> reseña<%= total == 1 ? '' : 's' %></small>
+              </p>
+            <% } else { %>
+              <p class="text-muted"><small>Sin calificaciones</small></p>
+            <% } %>
+          </div>
+          <div class="card-footer">
+            <a href="/canchas/<%= cancha.id %>" class="btn btn-dark btn-sm w-100">Ver horarios y reservar</a>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+<% } else { %>
+  <div class="text-center py-5">
+    <h4 class="text-muted">No hay canchas disponibles.</h4>
+  </div>
+<% } %>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,51 @@
+<%- include('../partials/header') %>
+
+<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
+    <li class="breadcrumb-item"><a href="/admin/canchas">Canchas</a></li>
+    <li class="breadcrumb-item active">Nueva Cancha</li>
+  </ol>
+</nav>
+
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header bg-dark text-white">
+        <h5 class="mb-0">Nueva Cancha</h5>
+      </div>
+      <div class="card-body">
+        <form action="/admin/canchas" method="POST">
+          <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" required>
+          </div>
+          <div class="mb-3">
+            <label for="tipo_id" class="form-label">Tipo de cancha</label>
+            <select class="form-select" id="tipo_id" name="tipo_id" required>
+              <option value="">Seleccionar tipo</option>
+              <% tipos.forEach(tipo => { %>
+                <option value="<%= tipo.id %>"><%= tipo.nombre %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="precio_por_hora" class="form-label">Precio por hora ($)</label>
+            <input type="number" class="form-control" id="precio_por_hora" name="precio_por_hora" min="0" step="0.01" required>
+          </div>
+          <div class="mb-3">
+            <label for="estado" class="form-label">Estado</label>
+            <select class="form-select" id="estado" name="estado">
+              <option value="activa">Activa</option>
+              <option value="inactiva">Inactiva</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-dark">Crear</button>
+          <a href="/admin/canchas" class="btn btn-secondary ms-2">Cancelar</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

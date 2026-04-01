@@ -1,0 +1,63 @@
+<%- include('../partials/header') %>
+
+<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+    <li class="breadcrumb-item"><a href="/reservas/mis-reservas">Mis Reservas</a></li>
+    <li class="breadcrumb-item active">Dejar Reseña</li>
+  </ol>
+</nav>
+
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5><%= reserva.horario && reserva.horario.cancha ? reserva.horario.cancha.nombre : 'Cancha' %></h5>
+        <% if (reserva.horario && reserva.horario.cancha && reserva.horario.cancha.tipo) { %>
+          <span class="badge bg-secondary"><%= reserva.horario.cancha.tipo.nombre %></span>
+        <% } %>
+        <% if (reserva.horario) { %>
+          <p class="mt-2 mb-0 text-muted">
+            <%= new Date(reserva.horario.fecha + 'T00:00:00').toLocaleDateString('es-AR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>
+            · <%= reserva.horario.hora_inicio %> - <%= reserva.horario.hora_fin %>
+          </p>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header bg-dark text-white">
+        <h5 class="mb-0">Dejar Reseña</h5>
+      </div>
+      <div class="card-body">
+        <form action="/resenas" method="POST">
+          <input type="hidden" name="reserva_id" value="<%= reserva.id %>">
+
+          <div class="mb-3">
+            <label class="form-label">Calificación</label>
+            <div>
+              <% for(let i = 1; i <= 5; i++) { %>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="calificacion" id="cal<%= i %>" value="<%= i %>" required>
+                  <label class="form-check-label" for="cal<%= i %>">
+                    <%= i %> &#9733;
+                  </label>
+                </div>
+              <% } %>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="comentario" class="form-label">Comentario (opcional)</label>
+            <textarea class="form-control" id="comentario" name="comentario" rows="3" maxlength="500"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-dark">Enviar Reseña</button>
+          <a href="/reservas/mis-reservas" class="btn btn-secondary ms-2">Cancelar</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof title !== 'undefined' ? title : 'Canchas Deportivas' %></title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <style>
+    html, body { height: 100%; }
+    body { display: flex; flex-direction: column; min-height: 100vh; }
+    .content-wrap { flex: 1; }
+    .star-filled { color: #ffc107; }
+    .star-empty { color: #ccc; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="/">Canchas Deportivas</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMain">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/canchas">Canchas</a>
+        </li>
+        <% if (usuario) { %>
+          <% if (usuario.rol === 'cliente') { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/reservas/mis-reservas">Mis Reservas</a>
+            </li>
+          <% } %>
+          <% if (usuario.rol === 'admin') { %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Administración</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/admin">Dashboard</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="/admin/tipos">Tipos de Cancha</a></li>
+                <li><a class="dropdown-item" href="/admin/canchas">Canchas</a></li>
+                <li><a class="dropdown-item" href="/admin/horarios">Horarios</a></li>
+                <li><a class="dropdown-item" href="/admin/reservas">Reservas</a></li>
+              </ul>
+            </li>
+          <% } %>
+        <% } %>
+      </ul>
+
+      <ul class="navbar-nav">
+        <% if (usuario) { %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+              <%= usuario.nombre %> (<%= usuario.rol %>)
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="/auth/logout">Cerrar Sesión</a></li>
+            </ul>
+          </li>
+        <% } else { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/auth/login">Iniciar Sesión</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/auth/register">Registrarse</a>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="content-wrap">
+<div class="container my-4">
+
+  <% if (successMessages && successMessages.length > 0) { %>
+    <% successMessages.forEach(msg => { %>
+      <div class="alert alert-success alert-dismissible fade show">
+        <%= msg %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    <% }) %>
+  <% } %>
+
+  <% if (errorMessages && errorMessages.length > 0) { %>
+    <% errorMessages.forEach(msg => { %>
+      <div class="alert alert-danger alert-dismissible fade show">
+        <%= msg %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    <% }) %>
+  <% } %>

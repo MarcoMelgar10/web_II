@@ -1,0 +1,31 @@
+<%- include('../../partials/header') %>
+
+<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
+    <li class="breadcrumb-item"><a href="/admin/tipos">Tipos</a></li>
+    <li class="breadcrumb-item active">Nuevo Tipo</li>
+  </ol>
+</nav>
+
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card">
+      <div class="card-header bg-dark text-white">
+        <h5 class="mb-0">Nuevo Tipo de Cancha</h5>
+      </div>
+      <div class="card-body">
+        <form action="/admin/tipos" method="POST">
+          <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre del tipo</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" required>
+          </div>
+          <button type="submit" class="btn btn-dark">Crear</button>
+          <a href="/admin/tipos" class="btn btn-secondary ms-2">Cancelar</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../../partials/footer') %>
