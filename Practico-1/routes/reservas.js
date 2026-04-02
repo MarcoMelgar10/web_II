@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { Op } = require('sequelize');
 const { Reserva, Horario, Cancha, TipoCancha } = require('../models');
 const { isAuthenticated } = require('../middleware/auth');
 
@@ -58,6 +59,25 @@ router.post('/', isAuthenticated, async (req, res) => {
     if (horario.cancha.estado !== 'activa') {
       req.flash('error', 'La cancha no está disponible.');
       return res.redirect('/canchas');
+    }
+
+    const reservaExistente = await Reserva.findOne({
+      where: { estado: 'confirmada' },
+      include: [{
+        model: Horario,
+        as: 'horario',
+        where: {
+          cancha_id: horario.cancha_id,
+          fecha: horario.fecha,
+          hora_inicio: { [Op.lt]: horario.hora_fin },
+          hora_fin: { [Op.gt]: horario.hora_inicio },
+        },
+      }],
+    });
+
+    if (reservaExistente) {
+      req.flash('error', 'Ya existe una reserva confirmada para esta cancha en ese horario.');
+      return res.redirect(`/canchas/${horario.cancha_id}?fecha=${horario.fecha}`);
     }
 
     await Reserva.create({
