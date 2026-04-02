@@ -1,14 +1,15 @@
 <%- include('../../partials/header') %>
 
-<h2>Nuevo Tipo de Cancha</h2>
+<h2>Editar Tipo de Cancha</h2>
 
 <div class="card" style="max-width: 400px;">
-  <form action="/admin/tipos" method="POST">
+  <form action="/admin/tipos/<%= tipo.id %>?_method=PUT" method="POST">
+    <input type="hidden" name="_method" value="PUT">
     <div class="form-group">
       <label for="nombre">Nombre del tipo</label>
-      <input type="text" id="nombre" name="nombre" required>
+      <input type="text" id="nombre" name="nombre" value="<%= tipo.nombre %>" required>
     </div>
-    <button type="submit" class="btn">Crear</button>
+    <button type="submit" class="btn">Guardar</button>
     <a href="/admin/tipos" class="btn btn-secondary">Cancelar</a>
   </form>
 </div>

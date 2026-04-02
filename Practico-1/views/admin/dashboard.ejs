@@ -1,57 +1,41 @@
 <%- include('../partials/header') %>
 
-<h3>Panel de Administración</h3>
-<p class="text-muted">Bienvenido, <strong><%= usuario.nombre %></strong></p>
+<h2>Panel de Administración</h2>
+<p>Bienvenido, <b><%= usuario.nombre %></b></p>
 
-<div class="row mb-4">
-  <div class="col-md-3 mb-3">
-    <div class="card text-center">
-      <div class="card-body">
-        <h2><%= stats.totalCanchas %></h2>
-        <p class="mb-0">Canchas</p>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3 mb-3">
-    <div class="card text-center">
-      <div class="card-body">
-        <h2><%= stats.totalUsuarios %></h2>
-        <p class="mb-0">Clientes</p>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3 mb-3">
-    <div class="card text-center">
-      <div class="card-body">
-        <h2><%= stats.totalReservas %></h2>
-        <p class="mb-0">Reservas</p>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3 mb-3">
-    <div class="card text-center">
-      <div class="card-body">
-        <h2><%= stats.reservasConfirmadas %></h2>
-        <p class="mb-0">Confirmadas</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<h5>Acciones Rápidas</h5>
 <div class="row">
-  <div class="col-md-3 mb-3">
-    <a href="/admin/canchas" class="btn btn-outline-dark w-100 py-3">Gestionar Canchas</a>
+  <div class="col">
+    <div class="card text-center">
+      <h2><%= stats.totalCanchas %></h2>
+      <p>Canchas</p>
+    </div>
   </div>
-  <div class="col-md-3 mb-3">
-    <a href="/admin/horarios/create" class="btn btn-outline-dark w-100 py-3">Crear Horario</a>
+  <div class="col">
+    <div class="card text-center">
+      <h2><%= stats.totalUsuarios %></h2>
+      <p>Clientes</p>
+    </div>
   </div>
-  <div class="col-md-3 mb-3">
-    <a href="/admin/reservas" class="btn btn-outline-dark w-100 py-3">Ver Reservas</a>
+  <div class="col">
+    <div class="card text-center">
+      <h2><%= stats.totalReservas %></h2>
+      <p>Reservas</p>
+    </div>
   </div>
-  <div class="col-md-3 mb-3">
-    <a href="/admin/tipos" class="btn btn-outline-dark w-100 py-3">Tipos de Cancha</a>
+  <div class="col">
+    <div class="card text-center">
+      <h2><%= stats.reservasConfirmadas %></h2>
+      <p>Confirmadas</p>
+    </div>
   </div>
 </div>
+
+<h3 class="mt-10">Acciones</h3>
+<p>
+  <a href="/admin/canchas" class="btn">Canchas</a>
+  <a href="/admin/horarios" class="btn">Horarios</a>
+  <a href="/admin/reservas" class="btn">Reservas</a>
+  <a href="/admin/tipos" class="btn">Tipos</a>
+</p>
 
 <%- include('../partials/footer') %>

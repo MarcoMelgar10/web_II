@@ -1,58 +1,42 @@
 <%- include('../../partials/header') %>
 
-<nav aria-label="breadcrumb" class="mb-3">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
-    <li class="breadcrumb-item active">Canchas</li>
-  </ol>
-</nav>
-
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <h3>Gestión de Canchas</h3>
-  <a href="/admin/canchas/create" class="btn btn-dark btn-sm">Nueva Cancha</a>
-</div>
+<h2>Canchas</h2>
+<p><a href="/admin/canchas/create" class="btn btn-sm">Nueva Cancha</a></p>
 
 <% if (canchas && canchas.length > 0) { %>
-  <div class="table-responsive">
-    <table class="table table-bordered">
-      <thead class="table-dark">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nombre</th>
+        <th>Tipo</th>
+        <th>Precio/Hora</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% canchas.forEach((cancha, idx) => { %>
         <tr>
-          <th>#</th>
-          <th>Nombre</th>
-          <th>Tipo</th>
-          <th>Precio/Hora</th>
-          <th>Estado</th>
-          <th class="text-center">Acciones</th>
+          <td><%= idx + 1 %></td>
+          <td><%= cancha.nombre %></td>
+          <td><%= cancha.tipo ? cancha.tipo.nombre : '-' %></td>
+          <td>$<%= cancha.precio_por_hora %></td>
+          <td><%= cancha.estado %></td>
+          <td>
+            <a href="/admin/canchas/<%= cancha.id %>/edit" class="btn btn-warning btn-sm">Editar</a>
+            <form action="/admin/canchas/<%= cancha.id %>?_method=DELETE" method="POST" class="inline"
+                  onsubmit="return confirm('¿Eliminar?')">
+              <input type="hidden" name="_method" value="DELETE">
+              <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+            </form>
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        <% canchas.forEach((cancha, idx) => { %>
-          <tr>
-            <td><%= idx + 1 %></td>
-            <td><%= cancha.nombre %></td>
-            <td><span class="badge bg-secondary"><%= cancha.tipo ? cancha.tipo.nombre : 'Sin tipo' %></span></td>
-            <td>$<%= Number(cancha.precio_por_hora).toLocaleString('es-AR') %></td>
-            <td>
-              <span class="badge bg-<%= cancha.estado === 'activa' ? 'success' : 'secondary' %>"><%= cancha.estado %></span>
-            </td>
-            <td class="text-center">
-              <a href="/admin/canchas/<%= cancha.id %>/edit" class="btn btn-sm btn-warning">Editar</a>
-              <form action="/admin/canchas/<%= cancha.id %>?_method=DELETE" method="POST" class="d-inline"
-                    onsubmit="return confirm('¿Eliminar la cancha \"<%= cancha.nombre %>\"?')">
-                <input type="hidden" name="_method" value="DELETE">
-                <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
-              </form>
-            </td>
-          </tr>
-        <% }) %>
-      </tbody>
-    </table>
-  </div>
+      <% }) %>
+    </tbody>
+  </table>
 <% } else { %>
-  <div class="text-center py-5">
-    <p class="text-muted">No hay canchas registradas.</p>
-    <a href="/admin/canchas/create" class="btn btn-dark">Crear primera cancha</a>
-  </div>
+  <p class="text-muted">No hay canchas registradas.</p>
 <% } %>
 
 <%- include('../../partials/footer') %>

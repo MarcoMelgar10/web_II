@@ -1,89 +1,69 @@
 <%- include('../../partials/header') %>
 
-<nav aria-label="breadcrumb" class="mb-3">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/admin">Admin</a></li>
-    <li class="breadcrumb-item active">Reservas</li>
-  </ol>
-</nav>
-
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <h3>Gestión de Reservas</h3>
-  <span class="badge bg-dark fs-6"><%= reservas.length %> reservas</span>
-</div>
+<h2>Reservas</h2>
+<p>Total: <b><%= reservas.length %></b></p>
 
 <% if (reservas && reservas.length > 0) { %>
-  <div class="table-responsive">
-    <table class="table table-bordered">
-      <thead class="table-dark">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Usuario</th>
+        <th>Cancha</th>
+        <th>Fecha</th>
+        <th>Horario</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% reservas.forEach((reserva, idx) => { %>
         <tr>
-          <th>#</th>
-          <th>Usuario</th>
-          <th>Cancha</th>
-          <th>Fecha</th>
-          <th>Horario</th>
-          <th>Estado</th>
-          <th>Creada</th>
-          <th class="text-center">Cambiar Estado</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% reservas.forEach((reserva, idx) => { %>
-          <tr>
-            <td><%= idx + 1 %></td>
-            <td>
-              <strong><%= reserva.usuario ? reserva.usuario.nombre : 'N/A' %></strong>
-              <br><small class="text-muted"><%= reserva.usuario ? reserva.usuario.email : '' %></small>
-            </td>
-            <td>
-              <% if (reserva.horario && reserva.horario.cancha) { %>
-                <%= reserva.horario.cancha.nombre %>
-                <% if (reserva.horario.cancha.tipo) { %>
-                  <br><small class="badge bg-secondary"><%= reserva.horario.cancha.tipo.nombre %></small>
-                <% } %>
+          <td><%= idx + 1 %></td>
+          <td>
+            <%= reserva.usuario ? reserva.usuario.nombre : '-' %>
+            <% if (reserva.usuario) { %>
+              <br><small><%= reserva.usuario.email %></small>
+            <% } %>
+          </td>
+          <td>
+            <% if (reserva.horario && reserva.horario.cancha) { %>
+              <%= reserva.horario.cancha.nombre %>
+            <% } else { %>
+              -
+            <% } %>
+          </td>
+          <td><%= reserva.horario ? reserva.horario.fecha : '-' %></td>
+          <td>
+            <% if (reserva.horario) { %>
+              <%= reserva.horario.hora_inicio %> - <%= reserva.horario.hora_fin %>
+            <% } %>
+          </td>
+          <td>
+            <span class="badge <%= reserva.estado === 'confirmada' ? 'badge-success' : '' %>">
+              <%= reserva.estado %>
+            </span>
+          </td>
+          <td>
+            <form action="/admin/reservas/<%= reserva.id %>/estado?_method=PUT" method="POST" class="inline">
+              <input type="hidden" name="_method" value="PUT">
+              <% if (reserva.estado === 'confirmada') { %>
+                <input type="hidden" name="estado" value="cancelada">
+                <button type="submit" class="btn btn-danger btn-sm"
+                        onclick="return confirm('¿Cancelar?')">Cancelar</button>
               <% } else { %>
-                N/A
+                <input type="hidden" name="estado" value="confirmada">
+                <button type="submit" class="btn btn-success btn-sm"
+                        onclick="return confirm('¿Confirmar?')">Confirmar</button>
               <% } %>
-            </td>
-            <td>
-              <% if (reserva.horario) { %>
-                <%= new Date(reserva.horario.fecha + 'T00:00:00').toLocaleDateString('es-AR') %>
-              <% } %>
-            </td>
-            <td>
-              <% if (reserva.horario) { %>
-                <%= reserva.horario.hora_inicio %> - <%= reserva.horario.hora_fin %>
-              <% } %>
-            </td>
-            <td>
-              <span class="badge bg-<%= reserva.estado === 'confirmada' ? 'success' : 'secondary' %>">
-                <%= reserva.estado %>
-              </span>
-            </td>
-            <td><small><%= new Date(reserva.createdAt).toLocaleDateString('es-AR') %></small></td>
-            <td class="text-center">
-              <form action="/admin/reservas/<%= reserva.id %>/estado?_method=PUT" method="POST">
-                <input type="hidden" name="_method" value="PUT">
-                <% if (reserva.estado === 'confirmada') { %>
-                  <input type="hidden" name="estado" value="cancelada">
-                  <button type="submit" class="btn btn-sm btn-danger"
-                          onclick="return confirm('¿Cancelar esta reserva?')">Cancelar</button>
-                <% } else { %>
-                  <input type="hidden" name="estado" value="confirmada">
-                  <button type="submit" class="btn btn-sm btn-success"
-                          onclick="return confirm('¿Confirmar esta reserva?')">Confirmar</button>
-                <% } %>
-              </form>
-            </td>
-          </tr>
-        <% }) %>
-      </tbody>
-    </table>
-  </div>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
 <% } else { %>
-  <div class="text-center py-5">
-    <p class="text-muted">No hay reservas registradas.</p>
-  </div>
+  <p class="text-muted">No hay reservas.</p>
 <% } %>
 
 <%- include('../../partials/footer') %>

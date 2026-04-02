@@ -1,37 +1,20 @@
 <%- include('../partials/header') %>
 
-<div class="row justify-content-center">
-  <div class="col-md-5">
-    <div class="card">
-      <div class="card-header bg-dark text-white text-center">
-        <h4 class="mb-0">Iniciar Sesión</h4>
+  <div class="card" style="max-width: 400px; margin: 40px auto;">
+    <h3>Iniciar Sesión</h3>
+    <form action="/auth/login" method="POST">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
       </div>
-      <div class="card-body">
-        <form action="/auth/login" method="POST">
-          <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" required>
-          </div>
-          <div class="mb-3">
-            <label for="contrasena" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" id="contrasena" name="contrasena" required>
-          </div>
-          <button type="submit" class="btn btn-dark w-100">Ingresar</button>
-        </form>
+      <div class="form-group">
+        <label for="contrasena">Contraseña</label>
+        <input type="password" id="contrasena" name="contrasena" required>
       </div>
-      <div class="card-footer text-center">
-        ¿No tenés cuenta? <a href="/auth/register">Registrarse</a>
-      </div>
-    </div>
-
-    <div class="card mt-3">
-      <div class="card-body py-2">
-        <small class="text-muted">
-          <strong>Admin de prueba:</strong> admin@admin.com / admin123
-        </small>
-      </div>
-    </div>
+      <button type="submit" class="btn">Ingresar</button>
+    </form>
+    <hr>
+    <p style="font-size: 11px; color: #000000;">Admin: admin@admin.com / admin123</p>
   </div>
-</div>
 
-<%- include('../partials/footer') %>
+  <%- include('../partials/footer') %>

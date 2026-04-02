@@ -1,80 +1,47 @@
 <%- include('../partials/header') %>
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <h3>Mis Reservas</h3>
-  <a href="/canchas" class="btn btn-dark btn-sm">Nueva Reserva</a>
-</div>
+<h2>Mis Reservas</h2>
+<p><a href="/canchas" class="btn btn-sm">Nueva Reserva</a></p>
 
 <% if (reservas && reservas.length > 0) { %>
-  <div class="table-responsive">
-    <table class="table table-bordered">
-      <thead class="table-dark">
+  <table>
+    <thead>
+      <tr>
+        <th>Cancha</th>
+        <th>Fecha</th>
+        <th>Horario</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% reservas.forEach(reserva => { %>
         <tr>
-          <th>Cancha</th>
-          <th>Tipo</th>
-          <th>Fecha</th>
-          <th>Horario</th>
-          <th>Precio</th>
-          <th>Estado</th>
-          <th>Acciones</th>
+          <td><%= reserva.horario && reserva.horario.cancha ? reserva.horario.cancha.nombre : '-' %></td>
+          <td><%= reserva.horario ? reserva.horario.fecha : '-' %></td>
+          <td>
+            <% if (reserva.horario) { %>
+              <%= reserva.horario.hora_inicio %> - <%= reserva.horario.hora_fin %>
+            <% } %>
+          </td>
+          <td><%= reserva.estado %></td>
+          <td>
+            <% if (reserva.estado === 'confirmada') { %>
+              <form action="/reservas/<%= reserva.id %>/cancelar" method="POST" class="inline"
+                    onsubmit="return confirm('¿Cancelar?')">
+                <button type="submit" class="btn btn-danger btn-sm">Cancelar</button>
+              </form>
+            <% } %>
+            <% if (reserva.estado === 'confirmada' && reserva.horario && reserva.horario.cancha) { %>
+              <a href="/resenas/create/<%= reserva.id %>" class="btn btn-warning btn-sm">Reseña</a>
+            <% } %>
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        <% reservas.forEach(reserva => { %>
-          <%
-            const esPasada = reserva.horario && reserva.horario.fecha < hoy;
-            const esCancelada = reserva.estado === 'cancelada';
-            const esConfirmada = reserva.estado === 'confirmada';
-          %>
-          <tr class="<%= esCancelada ? 'table-secondary' : '' %>">
-            <td><%= reserva.horario && reserva.horario.cancha ? reserva.horario.cancha.nombre : 'N/A' %></td>
-            <td>
-              <% if (reserva.horario && reserva.horario.cancha && reserva.horario.cancha.tipo) { %>
-                <span class="badge bg-secondary"><%= reserva.horario.cancha.tipo.nombre %></span>
-              <% } %>
-            </td>
-            <td>
-              <% if (reserva.horario) { %>
-                <%= new Date(reserva.horario.fecha + 'T00:00:00').toLocaleDateString('es-AR') %>
-              <% } %>
-            </td>
-            <td>
-              <% if (reserva.horario) { %>
-                <%= reserva.horario.hora_inicio %> - <%= reserva.horario.hora_fin %>
-              <% } %>
-            </td>
-            <td>
-              <% if (reserva.horario && reserva.horario.cancha) { %>
-                $<%= Number(reserva.horario.cancha.precio_por_hora).toLocaleString('es-AR') %>
-              <% } %>
-            </td>
-            <td>
-              <span class="badge bg-<%= esConfirmada ? 'success' : 'secondary' %>"><%= reserva.estado %></span>
-              <% if (esPasada) { %>
-                <span class="badge bg-dark">Pasada</span>
-              <% } %>
-            </td>
-            <td>
-              <% if (esConfirmada && !esPasada) { %>
-                <form action="/reservas/<%= reserva.id %>/cancelar" method="POST" class="d-inline"
-                      onsubmit="return confirm('¿Cancelar esta reserva?')">
-                  <button type="submit" class="btn btn-danger btn-sm">Cancelar</button>
-                </form>
-              <% } %>
-              <% if (esConfirmada && esPasada && reserva.horario && reserva.horario.cancha) { %>
-                <a href="/resenas/create/<%= reserva.id %>" class="btn btn-warning btn-sm">Dejar Reseña</a>
-              <% } %>
-            </td>
-          </tr>
-        <% }) %>
-      </tbody>
-    </table>
-  </div>
+      <% }) %>
+    </tbody>
+  </table>
 <% } else { %>
-  <div class="text-center py-5">
-    <h4 class="text-muted">No tenés reservas.</h4>
-    <a href="/canchas" class="btn btn-dark mt-2">Ver canchas</a>
-  </div>
+  <p class="text-muted">No tenés reservas. <a href="/canchas">Ver canchas</a></p>
 <% } %>
 
 <%- include('../partials/footer') %>

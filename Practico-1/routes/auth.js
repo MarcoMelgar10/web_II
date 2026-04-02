@@ -3,95 +3,45 @@ const router = express.Router();
 const { Usuario } = require('../models');
 
 router.get('/login', (req, res) => {
-  if (req.session.usuarioId) return res.redirect('/');
-  res.render('auth/login', { title: 'Iniciar Sesión' });
+  if (req.session.usuarioId) {
+    if (req.session.usuarioRol === 'admin') return res.redirect('/admin');
+    return res.redirect('/canchas');
+  }
+  res.render('auth/login', { title: 'Login' });
 });
 
 router.post('/login', async (req, res) => {
-  try {
-    const { email, contrasena } = req.body;
+  const { email, contrasena } = req.body;
+  const usuario = await Usuario.findOne({ where: { email } });
 
-    if (!email || !contrasena) {
-      req.flash('error', 'Completá todos los campos.');
-      return res.redirect('/auth/login');
-    }
-
-    const usuario = await Usuario.findOne({ where: { email } });
-
-    if (!usuario) {
-      req.flash('error', 'Email o contraseña incorrectos.');
-      return res.redirect('/auth/login');
-    }
-
-    const valido = await usuario.validarContrasena(contrasena);
-    if (!valido) {
-      req.flash('error', 'Email o contraseña incorrectos.');
-      return res.redirect('/auth/login');
-    }
-
-    req.session.usuarioId = usuario.id;
-    req.session.usuarioNombre = usuario.nombre;
-    req.session.usuarioRol = usuario.rol;
-
-    req.flash('success', `Bienvenido/a, ${usuario.nombre}!`);
-
-    if (usuario.rol === 'admin') return res.redirect('/admin');
-    res.redirect('/');
-  } catch (error) {
-    console.error(error);
-    req.flash('error', 'Error al iniciar sesión.');
-    res.redirect('/auth/login');
+  if (!usuario || usuario.contrasena !== contrasena) {
+    return res.redirect('/auth/login');
   }
+
+  req.session.usuarioId = usuario.id;
+  req.session.usuarioNombre = usuario.nombre;
+  req.session.usuarioRol = usuario.rol;
+
+  if (usuario.rol === 'admin') return res.redirect('/admin');
+  res.redirect('/canchas');
 });
 
 router.get('/register', (req, res) => {
-  if (req.session.usuarioId) return res.redirect('/');
-  res.render('auth/register', { title: 'Registrarse' });
+  if (req.session.usuarioId) return res.redirect('/canchas');
+  res.render('auth/register', { title: 'Registro' });
 });
 
 router.post('/register', async (req, res) => {
-  try {
-    const { nombre, email, contrasena, confirmar_contrasena } = req.body;
+  const { nombre, email, contrasena } = req.body;
 
-    if (!nombre || !email || !contrasena || !confirmar_contrasena) {
-      req.flash('error', 'Completá todos los campos.');
-      return res.redirect('/auth/register');
-    }
+  await Usuario.create({ nombre, email, contrasena, rol: 'cliente' });
 
-    if (contrasena !== confirmar_contrasena) {
-      req.flash('error', 'Las contraseñas no coinciden.');
-      return res.redirect('/auth/register');
-    }
+  const usuario = await Usuario.findOne({ where: { email } });
+  req.session.usuarioId = usuario.id;
+  req.session.usuarioNombre = usuario.nombre;
+  req.session.usuarioRol = usuario.rol;
 
-    if (contrasena.length < 6) {
-      req.flash('error', 'La contraseña debe tener al menos 6 caracteres.');
-      return res.redirect('/auth/register');
-    }
-
-    const existente = await Usuario.findOne({ where: { email } });
-    if (existente) {
-      req.flash('error', 'Ya existe una cuenta con ese email.');
-      return res.redirect('/auth/register');
-    }
-
-    const usuario = await Usuario.create({
-      nombre,
-      email,
-      contrasena,
-      rol: 'cliente',
-    });
-
-    req.session.usuarioId = usuario.id;
-    req.session.usuarioNombre = usuario.nombre;
-    req.session.usuarioRol = usuario.rol;
-
-    req.flash('success', 'Cuenta creada exitosamente.');
-    res.redirect('/');
-  } catch (error) {
-    console.error(error);
-    req.flash('error', 'Error al crear la cuenta.');
-    res.redirect('/auth/register');
-  }
+  res.redirect('/canchas');
 });
 
 router.get('/logout', (req, res) => {

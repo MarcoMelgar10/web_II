@@ -1,57 +1,7 @@
 <%- include('partials/header') %>
 
-<div class="p-4 mb-4 bg-dark text-white rounded">
-  <h1>Reservá tu Cancha</h1>
-  <p>Encontrá canchas de fútbol, tenis, pádel y más. Reservá el horario que prefieras.</p>
-  <a href="/canchas" class="btn btn-light">Ver canchas</a>
-  <% if (!usuario) { %>
-    <a href="/auth/register" class="btn btn-outline-light ms-2">Registrarse</a>
-  <% } %>
-</div>
-
-<% if (canchas && canchas.length > 0) { %>
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h3>Canchas Disponibles</h3>
-    <a href="/canchas" class="btn btn-outline-dark btn-sm">Ver todas</a>
-  </div>
-
-  <div class="row">
-    <% canchas.forEach(cancha => { %>
-      <div class="col-md-4 mb-4">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title"><%= cancha.nombre %></h5>
-            <p class="card-text">
-              <span class="badge bg-secondary"><%= cancha.tipo ? cancha.tipo.nombre : 'Sin tipo' %></span>
-            </p>
-            <p class="card-text fw-bold text-success">$<%= Number(cancha.precio_por_hora).toLocaleString('es-AR') %> / hora</p>
-            <%
-              const prom = cancha.getDataValue ? cancha.getDataValue('promedio_calificacion') : null;
-              const total = cancha.getDataValue ? cancha.getDataValue('total_resenas') : 0;
-              const promNum = prom ? parseFloat(prom) : 0;
-            %>
-            <% if (prom && parseFloat(prom) > 0) { %>
-              <p class="card-text">
-                <% for(let i = 1; i <= 5; i++) { %>
-                  <span class="<%= i <= Math.round(promNum) ? 'star-filled' : 'star-empty' %>">&#9733;</span>
-                <% } %>
-                <small class="text-muted">(<%= parseFloat(prom).toFixed(1) %>) - <%= total %> reseña<%= total == 1 ? '' : 's' %></small>
-              </p>
-            <% } else { %>
-              <p class="card-text text-muted"><small>Sin calificaciones</small></p>
-            <% } %>
-          </div>
-          <div class="card-footer">
-            <a href="/canchas/<%= cancha.id %>" class="btn btn-dark btn-sm w-100">Ver horarios</a>
-          </div>
-        </div>
-      </div>
-    <% }) %>
-  </div>
-<% } else { %>
-  <div class="text-center py-5">
-    <h4 class="text-muted">No hay canchas disponibles por el momento.</h4>
-  </div>
-<% } %>
+<h2>Bienvenido</h2>
+<p>Sistema de reservas de canchas deportivas.</p>
+<p><a href="/auth/login">Iniciar sesión</a> | <a href="/canchas">Ver canchas</a></p>
 
 <%- include('partials/footer') %>

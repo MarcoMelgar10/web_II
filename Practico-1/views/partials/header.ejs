@@ -4,93 +4,79 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= typeof title !== 'undefined' ? title : 'Canchas Deportivas' %></title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
   <style>
-    html, body { height: 100%; }
-    body { display: flex; flex-direction: column; min-height: 100vh; }
-    .content-wrap { flex: 1; }
-    .star-filled { color: #ffc107; }
-    .star-empty { color: #ccc; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; font-size: 14px; background: #f5f5f5; }
+    nav { background: #333; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+    nav a { color: #fff; text-decoration: none; margin-right: 15px; }
+    nav a:hover { text-decoration: underline; }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .nav-right span { color: #ccc; font-size: 13px; }
+    .container { max-width: 960px; margin: 20px auto; padding: 0 15px; }
+    table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+    table th, table td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    table th { background: #333; color: #fff; }
+    tr:hover { background: #eee; }
+    .btn { display: inline-block; padding: 5px 12px; text-decoration: none; border: 1px solid #333; background: #333; color: #fff; cursor: pointer; font-size: 13px; }
+    .btn:hover { background: #555; }
+    .btn-danger { background: #c00; border-color: #c00; }
+    .btn-danger:hover { background: #a00; }
+    .btn-warning { background: #e90; border-color: #e90; }
+    .btn-warning:hover { background: #c70; }
+    .btn-success { background: #090; border-color: #090; color: #fff; }
+    .btn-success:hover { background: #070; }
+    .btn-secondary { background: #888; border-color: #888; }
+    .btn-secondary:hover { background: #666; }
+    .btn-sm { padding: 3px 8px; font-size: 12px; }
+    input, select, textarea { padding: 6px 8px; border: 1px solid #ccc; font-size: 14px; width: 100%; }
+    select { width: 100%; }
+    label { display: block; margin: 8px 0 4px; font-weight: bold; font-size: 13px; }
+    .form-group { margin-bottom: 12px; }
+    .card { border: 1px solid #ddd; padding: 15px; margin: 10px 0; background: #fff; }
+    .card h3 { margin-bottom: 10px; }
+    h1, h2, h3 { color: #333; }
+    a { color: #06c; }
+    .badge { display: inline-block; padding: 2px 8px; font-size: 11px; background: #666; color: #fff; }
+    .badge-success { background: #090; }
+    .badge-danger { background: #c00; }
+    .row { display: flex; gap: 15px; flex-wrap: wrap; }
+    .col { flex: 1; min-width: 200px; }
+    .text-center { text-align: center; }
+    .text-muted { color: #888; }
+    .mt-10 { margin-top: 10px; }
+    .mb-10 { margin-bottom: 10px; }
+    .inline { display: inline; }
+    hr { margin: 15px 0; border: none; border-top: 1px solid #ddd; }
+    footer { text-align: center; padding: 15px; color: #888; font-size: 12px; margin-top: 30px; border-top: 1px solid #ddd; }
   </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" href="/">Canchas Deportivas</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarMain">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/">Inicio</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/canchas">Canchas</a>
-        </li>
-        <% if (usuario) { %>
-          <% if (usuario.rol === 'cliente') { %>
-            <li class="nav-item">
-              <a class="nav-link" href="/reservas/mis-reservas">Mis Reservas</a>
-            </li>
-          <% } %>
-          <% if (usuario.rol === 'admin') { %>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Administración</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/admin">Dashboard</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="/admin/tipos">Tipos de Cancha</a></li>
-                <li><a class="dropdown-item" href="/admin/canchas">Canchas</a></li>
-                <li><a class="dropdown-item" href="/admin/horarios">Horarios</a></li>
-                <li><a class="dropdown-item" href="/admin/reservas">Reservas</a></li>
-              </ul>
-            </li>
-          <% } %>
-        <% } %>
-      </ul>
-
-      <ul class="navbar-nav">
-        <% if (usuario) { %>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-              <%= usuario.nombre %> (<%= usuario.rol %>)
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="/auth/logout">Cerrar Sesión</a></li>
-            </ul>
-          </li>
-        <% } else { %>
-          <li class="nav-item">
-            <a class="nav-link" href="/auth/login">Iniciar Sesión</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/auth/register">Registrarse</a>
-          </li>
-        <% } %>
-      </ul>
-    </div>
+<nav>
+  <div>
+    <a href="/admin"><b>Canchas Deportivas</b></a>
+    <% if (usuario && usuario.rol === 'admin') { %>
+      <a href="/admin">Dashboard</a>
+      <a href="/admin/tipos">Tipos</a>
+      <a href="/admin/canchas">Canchas</a>
+      <a href="/admin/horarios">Horarios</a>
+      <a href="/admin/reservas">Reservas</a>
+      <a href="/admin/resenas">Reseñas</a>
+    <% } %>
+    <% if (usuario && usuario.rol === 'cliente') { %>
+      <a href="/canchas">Canchas</a>
+      <a href="/reservas/mis-reservas">Mis Reservas</a>
+    <% } %>
+  </div>
+  <div class="nav-right">
+    <% if (usuario) { %>
+      <span><%= usuario.nombre %> (<%= usuario.rol %>)</span>
+      <a href="/auth/logout">Salir</a>
+    <% } else { %>
+      <a href="/auth/login">Login</a>
+      <a href="/auth/register">Registro</a>
+    <% } %>
   </div>
 </nav>
 
-<div class="content-wrap">
-<div class="container my-4">
-
-  <% if (successMessages && successMessages.length > 0) { %>
-    <% successMessages.forEach(msg => { %>
-      <div class="alert alert-success alert-dismissible fade show">
-        <%= msg %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-      </div>
-    <% }) %>
-  <% } %>
-
-  <% if (errorMessages && errorMessages.length > 0) { %>
-    <% errorMessages.forEach(msg => { %>
-      <div class="alert alert-danger alert-dismissible fade show">
-        <%= msg %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-      </div>
-    <% }) %>
-  <% } %>
+<div class="container">

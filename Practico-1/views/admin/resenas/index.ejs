@@ -1,0 +1,35 @@
+<%- include('../../partials/header') %>
+
+<h2>Reseñas</h2>
+<p>Total: <b><%= resenas.length %></b></p>
+
+<% if (resenas && resenas.length > 0) { %>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Usuario</th>
+        <th>Cancha</th>
+        <th>Calificación</th>
+        <th>Comentario</th>
+        <th>Fecha</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% resenas.forEach((resena, idx) => { %>
+        <tr>
+          <td><%= idx + 1 %></td>
+          <td><%= resena.usuario ? resena.usuario.nombre : '-' %></td>
+          <td><%= resena.cancha ? resena.cancha.nombre : '-' %></td>
+          <td><%= resena.calificacion %>/5</td>
+          <td><%= resena.comentario || '-' %></td>
+          <td><%= new Date(resena.createdAt).toLocaleDateString('es-AR') %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } else { %>
+  <p class="text-muted">No hay reseñas.</p>
+<% } %>
+
+<%- include('../../partials/footer') %>
