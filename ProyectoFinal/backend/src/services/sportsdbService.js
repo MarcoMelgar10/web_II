@@ -16,8 +16,7 @@ const MAPA_SEDES = {
   'Estadio Azteca': 'Ciudad de México',
   'Estadio Akron': 'Guadalajara',
   'Estadio BBVA': 'Monterrey',
-  'Estadio Banorte': 'Monterrey',          // nombre actualizado del BBVA
-  'BMO Field': 'Toronto',
+  'Estadio Banorte': 'Monterrey',          
   'BC Place': 'Vancouver',
   'Mercedes-Benz Stadium': 'Atlanta',
   'Gillette Stadium': 'Boston',

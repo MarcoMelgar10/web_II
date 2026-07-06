@@ -5,6 +5,9 @@ import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
 // Arreglo necesario para que los iconos de Leaflet se vean al usar Vite.
+// Sin el delete, L.Icon.Default vuelve a anteponer un "imagePath" autodetectado
+// a la URL ya resuelta, generando una ruta rota (icono roto en el mapa).
+delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconUrl: markerIcon,
   iconRetinaUrl: markerIcon2x,
