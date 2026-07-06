@@ -1,0 +1,593 @@
+/* ===========================================================
+   Variables y estilos base (diseño minimalista)
+   =========================================================== */
+:root {
+  --fondo: #f4f6f8;
+  --superficie: #ffffff;
+  --texto: #1f2933;
+  --texto-suave: #6b7280;
+  --borde: #e5e7eb;
+  --primario: #16a34a;
+  --primario-oscuro: #15803d;
+  --secundario: #eef1f4;
+  --error-bg: #fee2e2;
+  --error-texto: #b91c1c;
+  --exito-bg: #dcfce7;
+  --exito-texto: #15803d;
+  --radio: 12px;
+  --sombra: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--fondo);
+  color: var(--texto);
+  line-height: 1.5;
+}
+
+a {
+  color: var(--primario);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+h1, h2, h3 {
+  line-height: 1.25;
+}
+
+/* ===========================================================
+   Layout
+   =========================================================== */
+.contenedor {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 28px 20px 60px;
+}
+.contenedor-angosto {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 28px 20px 60px;
+}
+.pagina-titulo {
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+.seccion {
+  margin-top: 32px;
+}
+.seccion-titulo {
+  font-size: 18px;
+  margin-bottom: 14px;
+}
+.texto-suave {
+  color: var(--texto-suave);
+}
+
+/* ===========================================================
+   Barra de navegación
+   =========================================================== */
+.navbar {
+  background: var(--superficie);
+  border-bottom: 1px solid var(--borde);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 60px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.navbar-marca {
+  font-weight: 700;
+  font-size: 18px;
+}
+.navbar-links {
+  display: flex;
+  gap: 18px;
+  flex: 1;
+}
+.navbar-links a {
+  color: var(--texto-suave);
+  font-weight: 500;
+  padding: 4px 0;
+}
+.navbar-links a.active {
+  color: var(--primario);
+  border-bottom: 2px solid var(--primario);
+}
+.navbar-usuario {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+/* ===========================================================
+   Botones
+   =========================================================== */
+.btn {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+}
+.btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.btn-primario {
+  background: var(--primario);
+  color: #fff;
+}
+.btn-primario:hover:not(:disabled) {
+  background: var(--primario-oscuro);
+}
+.btn-secundario {
+  background: var(--secundario);
+  color: var(--texto);
+}
+.btn-secundario:hover:not(:disabled) {
+  background: #e2e6ea;
+}
+.btn-ancho {
+  width: 100%;
+  margin-top: 8px;
+}
+.btn-pequeno {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+/* ===========================================================
+   Formularios
+   =========================================================== */
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--texto-suave);
+  margin: 12px 0 6px;
+}
+input, select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  font-size: 14px;
+  background: #fff;
+  color: var(--texto);
+}
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--primario);
+}
+
+/* ===========================================================
+   Tarjetas
+   =========================================================== */
+.tarjeta {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 20px;
+  box-shadow: var(--sombra);
+}
+
+/* ===========================================================
+   Mensajes y loader
+   =========================================================== */
+.mensaje {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin: 10px 0;
+}
+.mensaje-error {
+  background: var(--error-bg);
+  color: var(--error-texto);
+}
+.mensaje-exito {
+  background: var(--exito-bg);
+  color: var(--exito-texto);
+}
+.loader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--texto-suave);
+  padding: 30px 0;
+}
+.loader-spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid var(--borde);
+  border-top-color: var(--primario);
+  border-radius: 50%;
+  animation: girar 0.8s linear infinite;
+}
+@keyframes girar {
+  to { transform: rotate(360deg); }
+}
+
+/* ===========================================================
+   Autenticación (login / registro)
+   =========================================================== */
+.auth-pagina {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.auth-tarjeta {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 32px;
+  width: 100%;
+  max-width: 400px;
+}
+.auth-titulo {
+  font-size: 22px;
+  text-align: center;
+}
+.auth-subtitulo {
+  text-align: center;
+  color: var(--texto-suave);
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+.auth-pie {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+/* ===========================================================
+   Dashboard
+   =========================================================== */
+.tarjetas-resumen {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.tarjeta-stat {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 22px;
+  text-align: center;
+  box-shadow: var(--sombra);
+}
+.stat-numero {
+  display: block;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--primario);
+}
+.stat-texto {
+  color: var(--texto-suave);
+  font-size: 14px;
+}
+.lista-posiciones {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.fila-posicion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: var(--texto);
+}
+.fila-posicion:hover {
+  text-decoration: none;
+  border-color: var(--primario);
+}
+.badge {
+  background: var(--secundario);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ===========================================================
+   Grupos
+   =========================================================== */
+.grupos-acciones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.grupos-acciones h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.grupos-acciones .btn {
+  margin-top: 12px;
+}
+.grilla-grupos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+.tarjeta-grupo {
+  color: var(--texto);
+  display: block;
+}
+.tarjeta-grupo:hover {
+  text-decoration: none;
+  border-color: var(--primario);
+}
+.tarjeta-grupo h3 {
+  font-size: 17px;
+  margin-bottom: 4px;
+}
+.codigo-chip {
+  display: inline-block;
+  margin-top: 12px;
+  background: var(--secundario);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-family: monospace;
+  letter-spacing: 1px;
+}
+.codigo-invitacion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.codigo-grande {
+  font-size: 24px;
+  font-weight: 700;
+  font-family: monospace;
+  letter-spacing: 2px;
+  color: var(--primario);
+}
+.grupo-columnas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* ===========================================================
+   Tablas
+   =========================================================== */
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  overflow: hidden;
+}
+.tabla th, .tabla td {
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--borde);
+  font-size: 14px;
+}
+.tabla th {
+  background: var(--secundario);
+  font-weight: 600;
+  color: var(--texto-suave);
+}
+.tabla tr:last-child td {
+  border-bottom: none;
+}
+.fila-resaltada {
+  background: var(--exito-bg);
+}
+.lista-simple {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.lista-simple li {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+}
+
+/* ===========================================================
+   Tarjeta de partido
+   =========================================================== */
+.filtros {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.filtros select, .filtros input {
+  width: auto;
+  min-width: 160px;
+}
+.grilla-partidos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.partido-card {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 16px;
+  display: block;
+  color: var(--texto);
+  box-shadow: var(--sombra);
+}
+.partido-card:hover {
+  text-decoration: none;
+  border-color: var(--primario);
+}
+.partido-card-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.partido-card-fase {
+  font-size: 12px;
+  color: var(--texto-suave);
+}
+.partido-card-equipos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.partido-card-equipos .equipo {
+  font-weight: 600;
+  flex: 1;
+}
+.partido-card-equipos .equipo:last-child {
+  text-align: right;
+}
+.partido-card-equipos .marcador {
+  font-weight: 700;
+  color: var(--primario);
+}
+.partido-card-pie {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--texto-suave);
+}
+
+/* Etiquetas de estado */
+.etiqueta {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.5px;
+}
+.etiqueta-programado {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+.etiqueta-en_curso {
+  background: #fef3c7;
+  color: #b45309;
+}
+.etiqueta-finalizado {
+  background: var(--secundario);
+  color: var(--texto-suave);
+}
+
+/* ===========================================================
+   Detalle de partido y pronóstico
+   =========================================================== */
+.partido-detalle-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.partido-detalle-marcador {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 28px;
+  box-shadow: var(--sombra);
+}
+.equipo-grande {
+  font-size: 22px;
+  font-weight: 700;
+  flex: 1;
+  text-align: center;
+}
+.vs-grande {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--primario);
+}
+.partido-detalle-info {
+  text-align: center;
+  color: var(--texto-suave);
+  margin: 14px 0;
+  font-size: 14px;
+}
+.pronostico-form-marcador {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 16px;
+  margin: 16px 0;
+}
+.campo-goles {
+  text-align: center;
+}
+.campo-goles label {
+  margin-bottom: 6px;
+}
+.campo-goles input {
+  width: 70px;
+  text-align: center;
+  font-size: 18px;
+}
+.pronostico-form-guion {
+  font-size: 24px;
+  font-weight: 700;
+  padding-bottom: 10px;
+}
+
+/* ===========================================================
+   Panel admin
+   =========================================================== */
+.admin-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 8px;
+}
+.admin-form-acciones {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* ===========================================================
+   Responsivo
+   =========================================================== */
+@media (max-width: 720px) {
+  .tarjetas-resumen,
+  .grupos-acciones,
+  .grupo-columnas,
+  .admin-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .navbar-links {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+  }
+}
